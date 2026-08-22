@@ -18,7 +18,7 @@ export const Route = createFileRoute("/impact")({
       },
     ],
   }),
-  component: Impact;
+  component: Impact,
 });
 
 type Tag = "Disclosed" | "Computed" | "Assumed";
