@@ -6,12 +6,14 @@ function Segment({
   detail,
   time,
   flex,
+  minWidth,
   tone,
 }: {
   label: string;
   detail: string;
   time: string;
   flex: number;
+  minWidth: string;
   tone: "dinner" | "walk" | "film";
 }) {
   const fill =
@@ -22,7 +24,7 @@ function Segment({
         : "bg-primary";
   const text = tone === "film" ? "text-primary-foreground" : "text-foreground";
   return (
-    <div style={{ flexGrow: flex, flexBasis: 0 }} className="min-w-0">
+    <div style={{ flexGrow: flex, flexBasis: 0, minWidth }} className="min-w-0">
       <div className={`rounded-full ${fill} px-3 py-2 ${text}`}>
         <p className="truncate text-[0.7rem] font-bold uppercase tracking-[0.12em] opacity-80">
           {label}
@@ -60,6 +62,7 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
           label="Dinner"
           time={`${fmt(plan.dinnerStart)}–${fmt(plan.dinnerEnd)}`}
           detail={plan.restaurant.locality}
+          minWidth="8.75rem"
           flex={plan.restaurant.mealDurationMins}
         />
         <Segment
@@ -67,6 +70,7 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
           label="Walk"
           time={`${plan.walkMins}m`}
           detail={`${plan.distanceKm.toFixed(1)} km`}
+          minWidth="3.5rem"
           flex={Math.max(30, plan.walkMins * 1.6)}
         />
         <Segment
@@ -74,6 +78,7 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
           label="Film"
           time={`${fmt(plan.showStart)}–${fmt(plan.showEnd)}`}
           detail={plan.film.title}
+          minWidth="8.75rem"
           flex={plan.film.runtimeMins}
         />
       </div>

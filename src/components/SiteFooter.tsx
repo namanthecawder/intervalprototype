@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border bg-secondary/50">
+    <footer className="mt-16 border-t border-border bg-secondary/50">
       <div className="mx-auto max-w-6xl space-y-3 px-5 py-12 text-sm text-muted-foreground">
         <p className="text-base font-semibold text-foreground">Interval</p>
         <p className="max-w-3xl leading-relaxed">
