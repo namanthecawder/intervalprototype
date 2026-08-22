@@ -54,6 +54,7 @@ function Slider({
   max,
   step,
   suffix,
+  prefix = "",
   note,
   onChange,
 }: {
@@ -63,6 +64,7 @@ function Slider({
   max: number;
   step: number;
   suffix: string;
+  prefix?: string;
   note: string;
   onChange: (v: number) => void;
 }) {
@@ -71,7 +73,8 @@ function Slider({
       <div className="flex items-baseline justify-between gap-3">
         <p className="text-sm font-semibold">{label}</p>
         <span className="pill-active">
-          {value}
+          {prefix}
+          {value.toLocaleString("en-IN")}
           {suffix}
         </span>
       </div>
@@ -156,7 +159,8 @@ function Impact() {
               min={600}
               max={3000}
               step={100}
-              suffix=" ₹"
+              suffix=""
+              prefix="₹"
               note="Assumed. Interval's own plan set averages roughly this per head including the ticket."
               onChange={setDiningAov}
             />
