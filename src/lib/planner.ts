@@ -33,9 +33,9 @@ export type Plan = {
 export function toMins(label: string): number {
   const m = label.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
   if (!m) return 0;
-  let h = Number(m[1]) % 12;
-  if (m[3].toUpperCase() === "PM") h += 12;
-  return h * 60 + Number(m[2]);
+  let h = Number(m[1]!) % 12;
+  if (m[3]!.toUpperCase() === "PM") h += 12;
+  return h * 60 + Number(m[2]!);
 }
 
 export function fmt(mins: number): string {
@@ -64,7 +64,7 @@ function hash(s: string): number {
 }
 
 function filmFor(cinema: Cinema, showtime: string): Film {
-  return films[hash(cinema.name + showtime) % films.length];
+  return films[hash(cinema.name + showtime) % films.length]!;
 }
 
 /** Per-person dinner spend estimate from the restaurant's price-for-two. */
@@ -142,7 +142,7 @@ export function rankPlans(input: PlanInput): Plan[] {
       if (chosen.length === 3) break;
       if (usedRestaurants.has(plan.restaurant.name)) continue;
       if ((cinemaCount.get(plan.cinema.name) ?? 0) >= 2) continue;
-      const lead = plan.restaurant.cuisines[0];
+      const lead = plan.restaurant.cuisines[0] ?? "";
       if (pass === 0 && usedCuisines.has(lead)) continue;
       chosen.push(plan);
       usedRestaurants.add(plan.restaurant.name);
