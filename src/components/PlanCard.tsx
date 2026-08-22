@@ -67,7 +67,7 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
           label="Walk"
           time={`${plan.walkMins}m`}
           detail={`${plan.distanceKm.toFixed(1)} km`}
-          flex={Math.max(28, plan.walkMins + plan.dinnerEnd - plan.dinnerEnd)}
+          flex={Math.max(30, plan.walkMins * 1.6)}
         />
         <Segment
           tone="film"
