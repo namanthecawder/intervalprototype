@@ -37,7 +37,45 @@ function Segment({
 }
 
 export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; partySize: number }) {
-  const total = plan.showEnd - plan.dinnerStart;
+  const filmFirst = plan.order === "film-first";
+  const start = filmFirst ? plan.showStart : plan.dinnerStart;
+  const end = filmFirst ? plan.dinnerEnd : plan.showEnd;
+  const total = end - start;
+
+  const dinnerSegment = (
+    <Segment
+      key="dinner"
+      tone="dinner"
+      label="Dinner"
+      time={`${fmt(plan.dinnerStart)}–${fmt(plan.dinnerEnd)}`}
+      detail={plan.restaurant.locality}
+      minWidth="8.75rem"
+      flex={plan.restaurant.mealDurationMins}
+    />
+  );
+  const walkSegment = (
+    <Segment
+      key="walk"
+      tone="walk"
+      label="Walk"
+      time={`${plan.walkMins}m`}
+      detail={`${plan.distanceKm.toFixed(1)} km`}
+      minWidth="3.5rem"
+      flex={Math.max(30, plan.walkMins * 1.6)}
+    />
+  );
+  const filmSegment = (
+    <Segment
+      key="film"
+      tone="film"
+      label="Film"
+      time={`${fmt(plan.showStart)}–${fmt(plan.showEnd)}`}
+      detail={plan.film.title}
+      minWidth="8.75rem"
+      flex={plan.film.runtimeMins}
+    />
+  );
+
   return (
     <article className="card-soft flex h-full min-w-[19rem] flex-col gap-5 p-5 sm:min-w-[22rem]">
       <div className="flex items-start justify-between gap-3">
