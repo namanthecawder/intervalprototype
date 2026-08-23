@@ -125,7 +125,7 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
           <dd className="font-semibold">
             {Math.floor(total / 60)}h {total % 60}m
           </dd>
-          <dd className="text-xs text-muted-foreground">ends {fmt(plan.showEnd)}</dd>
+          <dd className="text-xs text-muted-foreground">ends {fmt(end)}</dd>
         </div>
       </dl>
 
