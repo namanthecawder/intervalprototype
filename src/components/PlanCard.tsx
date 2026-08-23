@@ -81,7 +81,7 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-            Plan {rank}
+            Plan {rank} · {filmFirst ? "Film first" : "Dinner first"}
           </p>
           <h3 className="mt-1 truncate text-xl">{plan.restaurant.name}</h3>
           <p className="mt-1 truncate text-xs text-muted-foreground">
@@ -97,30 +97,9 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
 
       {/* The timeline strip: the most distinctive element on the page. */}
       <div className="flex items-start gap-1.5">
-        <Segment
-          tone="dinner"
-          label="Dinner"
-          time={`${fmt(plan.dinnerStart)}–${fmt(plan.dinnerEnd)}`}
-          detail={plan.restaurant.locality}
-          minWidth="8.75rem"
-          flex={plan.restaurant.mealDurationMins}
-        />
-        <Segment
-          tone="walk"
-          label="Walk"
-          time={`${plan.walkMins}m`}
-          detail={`${plan.distanceKm.toFixed(1)} km`}
-          minWidth="3.5rem"
-          flex={Math.max(30, plan.walkMins * 1.6)}
-        />
-        <Segment
-          tone="film"
-          label="Film"
-          time={`${fmt(plan.showStart)}–${fmt(plan.showEnd)}`}
-          detail={plan.film.title}
-          minWidth="8.75rem"
-          flex={plan.film.runtimeMins}
-        />
+        {filmFirst
+          ? [filmSegment, walkSegment, dinnerSegment]
+          : [dinnerSegment, walkSegment, filmSegment]}
       </div>
 
       <dl className="grid grid-cols-2 gap-y-3 border-t border-border pt-4 text-sm">
