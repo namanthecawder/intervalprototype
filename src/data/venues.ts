@@ -4,11 +4,14 @@ export type Cinema = {
   lat: number; lng: number; showtimes: string[]; avgTicketPrice: number;
 };
 
+export type Occasion = "date" | "friends" | "family" | "quick";
+
 export type Restaurant = {
   name: string; cuisines: string[]; locality: string; area: string;
   lat: number; lng: number; priceForTwo: number; rating: number | null;
-  takesReservations: boolean; mealDurationMins: number; vegFriendly: string;
-  districtBooking: string; sourceUrl: string; checkedOn: string;
+  takesReservations: boolean; mealDurationMins: number;
+  venueType: string; occasionFit: Occasion[];
+  vegFriendly: string; districtBooking: string; sourceUrl: string; checkedOn: string;
 };
 
 export const AREAS = ["Gurgaon", "Noida", "South Delhi"] as const;
@@ -410,6 +413,1024 @@ export const cinemas: Cinema[] = [
 
 export const restaurants: Restaurant[] = [
   {
+    "name": "Chili's Grill & Bar (Ambience Mall)",
+    "cuisines": [
+      "Mexican",
+      "American",
+      "Continental"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.502384,
+    "lng": 77.097499,
+    "priceForTwo": 1700,
+    "rating": 4.6,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "PizzaExpress (Ambience Mall)",
+    "cuisines": [
+      "Pizza",
+      "Italian",
+      "Salad",
+      "Bakery",
+      "Coffee",
+      "Beverages",
+      "Cafe"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.502645,
+    "lng": 77.097268,
+    "priceForTwo": 2000,
+    "rating": 4.6,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "YouMee (Ambience Mall)",
+    "cuisines": [
+      "Chinese",
+      "Japanese"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.503345,
+    "lng": 77.097396,
+    "priceForTwo": 3000,
+    "rating": 4.6,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "fine_dining",
+    "occasionFit": [
+      "date",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Spezia Bistro",
+    "cuisines": [
+      "Italian",
+      "Asian",
+      "Indo-Chinese"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.5027,
+    "lng": 77.09735,
+    "priceForTwo": 2000,
+    "rating": 4.5,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Cafe Delhi Heights (Ambience Mall)",
+    "cuisines": [
+      "North Indian",
+      "Continental",
+      "Mexican"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.5028,
+    "lng": 77.09745,
+    "priceForTwo": 2500,
+    "rating": 4.1,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Mamagoto (Ambience Mall)",
+    "cuisines": [
+      "Chinese",
+      "Thai",
+      "Indo-Chinese"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.503,
+    "lng": 77.09725,
+    "priceForTwo": 3000,
+    "rating": 4.5,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "fine_dining",
+    "occasionFit": [
+      "date",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Dhaba - Estd 1986 Delhi",
+    "cuisines": [
+      "North Indian"
+    ],
+    "locality": "Ambience Mall, DLF Phase 3, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.5026,
+    "lng": 77.09765,
+    "priceForTwo": 2400,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Farzi Cafe (Cyber Hub)",
+    "cuisines": [
+      "North Indian",
+      "Modern Indian",
+      "Mexican",
+      "Fusion"
+    ],
+    "locality": "Cyber Hub, DLF Cyber City, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.495171,
+    "lng": 77.088641,
+    "priceForTwo": 2500,
+    "rating": 4.2,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Burma Burma - Cyber Hub",
+    "cuisines": [
+      "Burmese",
+      "Oriental"
+    ],
+    "locality": "Cyber Hub, DLF Cyber City, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.494615,
+    "lng": 77.088513,
+    "priceForTwo": 1800,
+    "rating": 4.9,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Cyber Hub Social",
+    "cuisines": [
+      "North Indian",
+      "Indo-Chinese",
+      "American",
+      "Continental"
+    ],
+    "locality": "Cyber Hub, DLF Cyber City, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.4949,
+    "lng": 77.0888,
+    "priceForTwo": 2000,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Yum Yum Cha (Cyber Hub)",
+    "cuisines": [
+      "Chinese",
+      "Japanese"
+    ],
+    "locality": "Cyber Hub, DLF Cyber City, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.49495,
+    "lng": 77.08865,
+    "priceForTwo": 2000,
+    "rating": 4.6,
+    "takesReservations": false,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Mamagoto (Cyber Hub)",
+    "cuisines": [
+      "Chinese",
+      "Japanese",
+      "Sri Lankan",
+      "Thai"
+    ],
+    "locality": "Cyber Hub, DLF Cyber City, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.49485,
+    "lng": 77.08872,
+    "priceForTwo": 1800,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "YouMee (Airia Mall)",
+    "cuisines": [
+      "Chinese",
+      "Japanese"
+    ],
+    "locality": "Airia Mall, Sector 68, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.38325,
+    "lng": 77.05235,
+    "priceForTwo": 3000,
+    "rating": 4.6,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "fine_dining",
+    "occasionFit": [
+      "date",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Cafe Delhi Heights (Ardee Mall)",
+    "cuisines": [
+      "North Indian",
+      "Italian",
+      "American"
+    ],
+    "locality": "Ardee Mall, Sector 52, Gurugram",
+    "area": "Gurgaon",
+    "lat": 28.445,
+    "lng": 77.0809,
+    "priceForTwo": 2200,
+    "rating": 4.1,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Burma Burma - Noida",
+    "cuisines": [
+      "Burmese",
+      "Fusion"
+    ],
+    "locality": "DLF Mall of India, Sector 18, Noida",
+    "area": "Noida",
+    "lat": 28.5672,
+    "lng": 77.3207,
+    "priceForTwo": 1800,
+    "rating": 4.9,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Chili's Grill & Bar (DLF Mall of India)",
+    "cuisines": [
+      "Mexican",
+      "American",
+      "Continental"
+    ],
+    "locality": "DLF Mall of India, Sector 18, Noida",
+    "area": "Noida",
+    "lat": 28.5671,
+    "lng": 77.32055,
+    "priceForTwo": 1600,
+    "rating": 4.5,
+    "takesReservations": false,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Mamagoto (DLF Mall of India)",
+    "cuisines": [
+      "Chinese",
+      "Thai",
+      "Japanese"
+    ],
+    "locality": "DLF Mall of India, Sector 18, Noida",
+    "area": "Noida",
+    "lat": 28.5673,
+    "lng": 77.32065,
+    "priceForTwo": 3500,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 100,
+    "venueType": "fine_dining",
+    "occasionFit": [
+      "date",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "The Big Chill",
+    "cuisines": [
+      "Italian",
+      "Desserts",
+      "Beverages"
+    ],
+    "locality": "DLF Mall of India, Sector 18, Noida",
+    "area": "Noida",
+    "lat": 28.56705,
+    "lng": 77.32075,
+    "priceForTwo": 2400,
+    "rating": 4.6,
+    "takesReservations": false,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Yum Yum Cha (DLF Mall of India)",
+    "cuisines": [
+      "Chinese",
+      "Japanese",
+      "Thai"
+    ],
+    "locality": "DLF Mall of India, Sector 18, Noida",
+    "area": "Noida",
+    "lat": 28.56725,
+    "lng": 77.3205,
+    "priceForTwo": 2000,
+    "rating": 4.4,
+    "takesReservations": false,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Imperfecto (Gardens Galleria)",
+    "cuisines": [
+      "North Indian",
+      "Italian",
+      "Asian"
+    ],
+    "locality": "Gardens Galleria, Sector 38, Noida",
+    "area": "Noida",
+    "lat": 28.5652,
+    "lng": 77.3236,
+    "priceForTwo": 3000,
+    "rating": 4.0,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "fine_dining",
+    "occasionFit": [
+      "date",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Lord Of The Drinks",
+    "cuisines": [
+      "North Indian",
+      "Continental",
+      "Indo-Chinese",
+      "Mediterranean"
+    ],
+    "locality": "Gardens Galleria, Sector 38, Noida",
+    "area": "Noida",
+    "lat": 28.56525,
+    "lng": 77.32365,
+    "priceForTwo": 2800,
+    "rating": 4.2,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Desi Vibes",
+    "cuisines": [
+      "North Indian",
+      "Punjabi"
+    ],
+    "locality": "Sector 18 Market, Noida",
+    "area": "Noida",
+    "lat": 28.5691,
+    "lng": 77.3215,
+    "priceForTwo": 1400,
+    "rating": 4.3,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Local (Gardens Galleria)",
+    "cuisines": [
+      "North Indian",
+      "Indo-Chinese",
+      "Continental",
+      "Asian"
+    ],
+    "locality": "Gardens Galleria, Sector 38, Noida",
+    "area": "Noida",
+    "lat": 28.56515,
+    "lng": 77.32355,
+    "priceForTwo": 2700,
+    "rating": 4.2,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Impulse",
+    "cuisines": [
+      "North Indian",
+      "Indo-Chinese",
+      "Continental"
+    ],
+    "locality": "Gardens Galleria, Sector 38, Noida",
+    "area": "Noida",
+    "lat": 28.5653,
+    "lng": 77.3237,
+    "priceForTwo": 2500,
+    "rating": 4.0,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Trippy Tequila",
+    "cuisines": [
+      "North Indian",
+      "Continental",
+      "Indo-Chinese",
+      "Asian"
+    ],
+    "locality": "Gardens Galleria, Sector 38, Noida",
+    "area": "Noida",
+    "lat": 28.5651,
+    "lng": 77.3235,
+    "priceForTwo": 4000,
+    "rating": 4.2,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "The Beer Cafe (Logix City Centre)",
+    "cuisines": [
+      "North Indian",
+      "Indo-Chinese",
+      "Continental"
+    ],
+    "locality": "Logix City Centre, Sector 32, Noida",
+    "area": "Noida",
+    "lat": 28.57405,
+    "lng": 77.35385,
+    "priceForTwo": 2000,
+    "rating": 4.3,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Khan Chacha - Rolls, Kebabs and Biryani",
+    "cuisines": [
+      "North Indian",
+      "Mughlai",
+      "Biryani",
+      "Kebab",
+      "Rolls"
+    ],
+    "locality": "Logix City Centre, Sector 32, Noida",
+    "area": "Noida",
+    "lat": 28.5741,
+    "lng": 77.3538,
+    "priceForTwo": 500,
+    "rating": 3.9,
+    "takesReservations": false,
+    "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "family",
+      "quick"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Yum Yum Cha (Saket)",
+    "cuisines": [
+      "Chinese",
+      "Japanese",
+      "Thai"
+    ],
+    "locality": "Select Citywalk, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.528902,
+    "lng": 77.219722,
+    "priceForTwo": 2000,
+    "rating": 4.6,
+    "takesReservations": false,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Burma Burma - Saket",
+    "cuisines": [
+      "Burmese"
+    ],
+    "locality": "Select Citywalk, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.528476,
+    "lng": 77.218602,
+    "priceForTwo": 1800,
+    "rating": 4.9,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Mamagoto (Saket)",
+    "cuisines": [
+      "Chinese",
+      "Thai",
+      "Japanese"
+    ],
+    "locality": "Select Citywalk, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.529249,
+    "lng": 77.219502,
+    "priceForTwo": 1500,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Chili's Grill & Bar (Saket)",
+    "cuisines": [
+      "Mexican",
+      "American",
+      "Continental"
+    ],
+    "locality": "DLF Avenue, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.528105,
+    "lng": 77.215664,
+    "priceForTwo": 2500,
+    "rating": 4.5,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Pa Pa Ya",
+    "cuisines": [
+      "Chinese",
+      "Japanese",
+      "Thai"
+    ],
+    "locality": "Select Citywalk, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.5287,
+    "lng": 77.219,
+    "priceForTwo": 2400,
+    "rating": 4.8,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Punjab Grill",
+    "cuisines": [
+      "North Indian",
+      "Punjabi",
+      "Modern Indian"
+    ],
+    "locality": "Select Citywalk, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.5286,
+    "lng": 77.2191,
+    "priceForTwo": 2500,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Andrea's Eatery",
+    "cuisines": [
+      "Continental",
+      "Asian"
+    ],
+    "locality": "Select Citywalk, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.52875,
+    "lng": 77.2193,
+    "priceForTwo": 2500,
+    "rating": 4.7,
+    "takesReservations": false,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Mahabelly",
+    "cuisines": [
+      "South Indian",
+      "Kerala"
+    ],
+    "locality": "DLF Avenue, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.52795,
+    "lng": 77.21585,
+    "priceForTwo": 1400,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Laidback Cafe",
+    "cuisines": [
+      "Mediterranean",
+      "Thai",
+      "Chinese"
+    ],
+    "locality": "DLF Avenue, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.52785,
+    "lng": 77.2159,
+    "priceForTwo": 1800,
+    "rating": 4.6,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Call Chotu - All Day Diner & Bar",
+    "cuisines": [
+      "Modern Indian",
+      "Continental",
+      "Asian"
+    ],
+    "locality": "Southern Park, Saket, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.5275,
+    "lng": 77.216,
+    "priceForTwo": 2400,
+    "rating": 4.5,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "Nehru Place Social",
+    "cuisines": [
+      "North Indian",
+      "Fusion",
+      "Continental"
+    ],
+    "locality": "Epicuria, Nehru Place, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.5514,
+    "lng": 77.25145,
+    "priceForTwo": 1500,
+    "rating": 4.4,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "FIO Cookhouse and Bar",
+    "cuisines": [
+      "Italian",
+      "Modern Indian",
+      "North Indian"
+    ],
+    "locality": "Epicuria, Nehru Place, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.5513,
+    "lng": 77.2515,
+    "priceForTwo": 4500,
+    "rating": 4.5,
+    "takesReservations": true,
+    "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
+    "name": "The Chatter House",
+    "cuisines": [
+      "Italian",
+      "American",
+      "North Indian"
+    ],
+    "locality": "Epicuria, Nehru Place, New Delhi",
+    "area": "South Delhi",
+    "lat": 28.55145,
+    "lng": 77.25135,
+    "priceForTwo": 2500,
+    "rating": 4.3,
+    "takesReservations": true,
+    "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
+    "vegFriendly": "UNKNOWN",
+    "districtBooking": "CHECK",
+    "sourceUrl": "",
+    "checkedOn": "2026-08-22"
+  },
+  {
     "name": "Cafe Grumpee",
     "cuisines": [
       "Italian",
@@ -418,12 +1439,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "C Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.56767362,
-    "lng": 77.15913784,
+    "lat": 28.567674,
+    "lng": 77.159138,
     "priceForTwo": 1500,
     "rating": 4.3,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/cafe-grumpee-vasant-vihar-new-delhi",
@@ -437,12 +1464,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "C Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5677690407,
-    "lng": 77.158755362,
+    "lat": 28.567769,
+    "lng": 77.158755,
     "priceForTwo": 2200,
     "rating": 3.9,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "date",
+      "friends",
+      "family"
+    ],
     "vegFriendly": "UNKNOWN",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/the-golden-dragon-vasant-vihar-new-delhi",
@@ -461,12 +1494,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "C Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5678352935,
-    "lng": 77.158616893,
+    "lat": 28.567835,
+    "lng": 77.158617,
     "priceForTwo": 500,
     "rating": 3.9,
     "takesReservations": false,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/salad-chef-vasant-vihar-new-delhi",
@@ -484,12 +1522,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "C Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5678135037,
-    "lng": 77.1583101153,
+    "lat": 28.567814,
+    "lng": 77.15831,
     "priceForTwo": 1200,
     "rating": 4.1,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/bread-more-vasant-vihar-new-delhi",
@@ -504,12 +1548,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "D Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5615098772,
-    "lng": 77.1554981545,
+    "lat": 28.56151,
+    "lng": 77.155498,
     "priceForTwo": 3500,
     "rating": 4.8,
     "takesReservations": true,
     "mealDurationMins": 90,
+    "venueType": "fine_dining",
+    "occasionFit": [
+      "date",
+      "family"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/pco-vasant-vihar-new-delhi",
@@ -525,12 +1574,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "C Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5677102,
-    "lng": 77.1587475,
+    "lat": 28.56771,
+    "lng": 77.158748,
     "priceForTwo": 500,
     "rating": 2.3,
     "takesReservations": false,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/m-s-sons-vasant-vihar-new-delhi",
@@ -547,12 +1601,16 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "A Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5651607085,
-    "lng": 77.1636936441,
+    "lat": 28.565161,
+    "lng": 77.163694,
     "priceForTwo": 200,
     "rating": 4.1,
     "takesReservations": false,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/bengal-sweet-palace-2-vasant-vihar-new-delhi",
@@ -568,12 +1626,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "A Block Market, Vasant Vihar, New Delhi",
     "area": "South Delhi",
-    "lat": 28.5612109852,
-    "lng": 77.167484276,
+    "lat": 28.561211,
+    "lng": 77.167484,
     "priceForTwo": 1300,
     "rating": 3.3,
     "takesReservations": false,
     "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
     "vegFriendly": "UNKNOWN",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/culinaire-vasant-vihar-new-delhi",
@@ -593,19 +1656,24 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Sector 29, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4684649839,
-    "lng": 77.0638966519,
+    "lat": 28.468465,
+    "lng": 77.063897,
     "priceForTwo": 500,
     "rating": 3.3,
     "takesReservations": true,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/hira-sweets-sector-29-gurgaon",
     "checkedOn": "2026-08-22"
   },
   {
-    "name": "AMPM Caf\u00e9 & Bar",
+    "name": "AMPM Café & Bar",
     "cuisines": [
       "Continental",
       "Italian",
@@ -617,12 +1685,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Galleria Market, DLF Phase 4, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4676361452,
-    "lng": 77.0816961676,
+    "lat": 28.467636,
+    "lng": 77.081696,
     "priceForTwo": 1400,
     "rating": 4.3,
     "takesReservations": true,
     "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
     "vegFriendly": "UNKNOWN",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/ampm-caf-bar-dlf-phase-4",
@@ -640,12 +1713,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Galleria Market, DLF Phase 4, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4673915134,
-    "lng": 77.0815774798,
+    "lat": 28.467392,
+    "lng": 77.081577,
     "priceForTwo": 4000,
     "rating": 4.5,
     "takesReservations": true,
     "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/downtown-fresh-beer-cafe-galleria-market-dlf-phase-4-gurgaon",
@@ -658,12 +1736,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Galleria Market, DLF Phase 4, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4673879,
-    "lng": 77.0821819,
+    "lat": 28.467388,
+    "lng": 77.082182,
     "priceForTwo": 1000,
     "rating": 3.9,
     "takesReservations": false,
     "mealDurationMins": 70,
+    "venueType": "casual_dining",
+    "occasionFit": [
+      "friends",
+      "family"
+    ],
     "vegFriendly": "UNKNOWN",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/fat-lulus-pizza-dlf-phase-4-gurgaon",
@@ -682,12 +1765,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Galleria Market, DLF Phase 4, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4673676397,
-    "lng": 77.0820435137,
+    "lat": 28.467368,
+    "lng": 77.082044,
     "priceForTwo": 1200,
     "rating": 4.5,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/fes-cafe-desserts-dlf-phase-4-gurgaon",
@@ -705,12 +1794,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Galleria Market, DLF Phase 4, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4671737023,
-    "lng": 77.0821819827,
+    "lat": 28.467174,
+    "lng": 77.082182,
     "priceForTwo": 800,
     "rating": 4.1,
     "takesReservations": false,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/blue-tokai-coffee-roasters-dlf-phase-4",
@@ -729,12 +1824,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "C Block, Sector 18, Noida",
     "area": "Noida",
-    "lat": 28.5710321622,
-    "lng": 77.3250127584,
+    "lat": 28.571032,
+    "lng": 77.325013,
     "priceForTwo": 1600,
     "rating": 4.4,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/amritsari-haveli-sector-18-noida",
@@ -749,12 +1850,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Main Market, Sector 18, Noida",
     "area": "Noida",
-    "lat": 28.5710775743,
-    "lng": 77.3243599574,
+    "lat": 28.571078,
+    "lng": 77.32436,
     "priceForTwo": 700,
     "rating": 4.2,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "qsr",
+    "occasionFit": [
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/the-dakshiini-cafe-sector-18-noida",
@@ -774,12 +1880,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "K Block, Sector 18, Noida",
     "area": "Noida",
-    "lat": 28.572044345,
-    "lng": 77.3228366706,
+    "lat": 28.572044,
+    "lng": 77.322837,
     "priceForTwo": 3000,
     "rating": 4.1,
     "takesReservations": true,
     "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/the-rooftop-heaven-sector-18-noida",
@@ -795,12 +1906,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "K Block, Sector 18, Noida",
     "area": "Noida",
-    "lat": 28.5715268706,
-    "lng": 77.3234878343,
+    "lat": 28.571527,
+    "lng": 77.323488,
     "priceForTwo": 1500,
     "rating": 4.5,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/adige-dosa-house-sector-18-noida",
@@ -820,12 +1937,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Savitri Market, Sector 18, Noida",
     "area": "Noida",
-    "lat": 28.5699202,
-    "lng": 77.3264534,
+    "lat": 28.56992,
+    "lng": 77.326453,
     "priceForTwo": 500,
     "rating": 3.0,
     "takesReservations": false,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/cafe-18-sector-18-noida",
@@ -845,6 +1967,10 @@ export const restaurants: Restaurant[] = [
     "rating": 4.2,
     "takesReservations": true,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.shreeiyengarfoods.com/",
@@ -866,6 +1992,10 @@ export const restaurants: Restaurant[] = [
     "rating": 4.0,
     "takesReservations": false,
     "mealDurationMins": 45,
+    "venueType": "qsr",
+    "occasionFit": [
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/grover-sweets-sector-52-gurgaon",
@@ -883,12 +2013,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Koyal Vihar, Sector 52, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.435098984,
-    "lng": 77.0724636689,
+    "lat": 28.435099,
+    "lng": 77.072464,
     "priceForTwo": 1200,
     "rating": 3.9,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/amritsar-haveli-sector-52-gurgaon",
@@ -908,12 +2044,17 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "Sector 68, Sohna Road, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.3888184,
-    "lng": 77.0449214,
+    "lat": 28.388818,
+    "lng": 77.044921,
     "priceForTwo": 1800,
     "rating": 3.8,
     "takesReservations": true,
     "mealDurationMins": 90,
+    "venueType": "bar",
+    "occasionFit": [
+      "date",
+      "friends"
+    ],
     "vegFriendly": "UNKNOWN",
     "districtBooking": "CHECK",
     "sourceUrl": "https://www.zomato.com/ncr/athenaa-luxe-club-sector-68-gurgaon",
@@ -932,12 +2073,18 @@ export const restaurants: Restaurant[] = [
     ],
     "locality": "HSVP Market, Sector 52, Gurugram",
     "area": "Gurgaon",
-    "lat": 28.4348408658,
-    "lng": 77.0719030135,
+    "lat": 28.434841,
+    "lng": 77.071903,
     "priceForTwo": 1200,
     "rating": null,
     "takesReservations": true,
     "mealDurationMins": 70,
+    "venueType": "cafe",
+    "occasionFit": [
+      "friends",
+      "family",
+      "quick"
+    ],
     "vegFriendly": "Y",
     "districtBooking": "CHECK",
     "sourceUrl": "https://theserenespoon.com/",

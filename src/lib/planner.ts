@@ -1,4 +1,10 @@
-import { cinemas, restaurants, type Cinema, type Restaurant } from "@/data/venues";
+import {
+  cinemas,
+  restaurants,
+  type Cinema,
+  type Restaurant,
+  type Occasion,
+} from "@/data/venues";
 import { films, type Film } from "@/data/films";
 
 export const BUFFER_MINS = 20;
@@ -7,12 +13,15 @@ export const MAX_RADIUS_KM = 2;
 export const EARLIEST_SHOW_MINS = 17 * 60;
 export const EARLIEST_DINNER_MINS = 18 * 60;
 export const POST_FILM_GAP_MINS = 15;
+export const LATE_DINNER_MINS = 21 * 60;
 
 export type PlanInput = {
   area: string;
   budgetPerPerson: number;
   partySize: number;
   latestEndMins: number;
+  /** Optional so existing callers keep compiling; defaults to "date". */
+  occasion?: Occasion;
 };
 
 export type PlanOrder = "dinner-first" | "film-first";
@@ -79,9 +88,23 @@ function perPersonSpend(r: Restaurant): number {
   return Math.round(r.priceForTwo / 2);
 }
 
+/**
+ * Occasion is a HARD filter, never a score. A sweet shop can be cheap, close
+ * and well rated and still be the wrong answer for a date.
+ */
+function fitsOccasion(r: Restaurant, occasion: Occasion): boolean {
+  if (!r.occasionFit.includes(occasion)) return false;
+  if (occasion === "date" && !r.takesReservations) return false;
+  if (occasion === "family" && r.venueType === "bar") return false;
+  return true;
+}
+
 export function buildCandidates(input: PlanInput): Plan[] {
+  const occasion: Occasion = input.occasion ?? "date";
   const areaCinemas = cinemas.filter((c) => c.area === input.area);
-  const areaRestaurants = restaurants.filter((r) => r.area === input.area);
+  const areaRestaurants = restaurants.filter(
+    (r) => r.area === input.area && fitsOccasion(r, occasion),
+  );
   const out: Plan[] = [];
 
   for (const cinema of areaCinemas) {
@@ -97,12 +120,13 @@ export function buildCandidates(input: PlanInput): Plan[] {
         if (distanceKm > MAX_RADIUS_KM) continue;
         const walkMins = Math.max(5, Math.round(distanceKm * WALK_MINS_PER_KM));
 
-        // Dinner first when the meal can end (with buffer) at or after 18:00 start.
+        // Dinner first when the meal can start at or after 18:00.
         let order: PlanOrder = "dinner-first";
         let dinnerEnd = showStart - BUFFER_MINS - walkMins;
         let dinnerStart = dinnerEnd - restaurant.mealDurationMins;
+
         if (dinnerStart < EARLIEST_DINNER_MINS) {
-          // Flip: film first, then walk, then a 15 minute gap before dinner.
+          // Too early to be dinner. Flip: film, then walk, then a 15 min gap.
           order = "film-first";
           dinnerStart = showEnd + walkMins + POST_FILM_GAP_MINS;
           dinnerEnd = dinnerStart + restaurant.mealDurationMins;
@@ -110,21 +134,39 @@ export function buildCandidates(input: PlanInput): Plan[] {
           if (dinnerEnd > input.latestEndMins) continue;
         }
 
-
         const costDinnerPerPerson = perPersonSpend(restaurant);
         const costFilmPerPerson = cinema.avgTicketPrice;
         const costPerPerson = costDinnerPerPerson + costFilmPerPerson;
         const costTotal = costPerPerson * input.partySize;
 
+        // Budget applies to the FOOD, not the ticket. 25% headroom.
+        if (costDinnerPerPerson > input.budgetPerPerson * 1.25) continue;
+
         const budgetScore = Math.max(
           0,
           1 - Math.abs(costDinnerPerPerson - input.budgetPerPerson) / input.budgetPerPerson,
         );
-        if (costDinnerPerPerson > input.budgetPerPerson * 1.25) continue;
         const ratingScore = restaurant.rating ? (restaurant.rating - 2.5) / 2.5 : 0.4;
         const travelScore = 1 - Math.min(1, distanceKm / MAX_RADIUS_KM);
 
-        const score = budgetScore * 0.45 + ratingScore * 0.35 + travelScore * 0.2;
+        const weights =
+          occasion === "friends"
+            ? { budget: 0.45, rating: 0.30, travel: 0.25 }
+            : occasion === "quick"
+              ? { budget: 0.30, rating: 0.20, travel: 0.50 }
+              : occasion === "family"
+                ? { budget: 0.40, rating: 0.35, travel: 0.25 }
+                : { budget: 0.35, rating: 0.40, travel: 0.25 }; // date
+
+        let score =
+          budgetScore * weights.budget +
+          ratingScore * weights.rating +
+          travelScore * weights.travel;
+
+        // People would rather eat before the film. Film-first is a fallback.
+        if (order === "dinner-first") score += 0.1;
+        // A meal starting after 21:00 is a late bite, not an evening out.
+        if (dinnerStart > LATE_DINNER_MINS) score -= 0.15;
 
         out.push({
           id: `${cinema.name}|${showtime}|${restaurant.name}`,
