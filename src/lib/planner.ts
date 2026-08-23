@@ -128,6 +128,7 @@ export function buildCandidates(input: PlanInput): Plan[] {
 
         out.push({
           id: `${cinema.name}|${showtime}|${restaurant.name}`,
+          order,
           restaurant,
           cinema,
           film,
