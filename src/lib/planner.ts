@@ -13,8 +13,11 @@ export type PlanInput = {
   latestEndMins: number;
 };
 
+export type PlanOrder = "dinner-first" | "film-first";
+
 export type Plan = {
   id: string;
+  order: PlanOrder;
   restaurant: Restaurant;
   cinema: Cinema;
   film: Film;
