@@ -5,6 +5,8 @@ export const BUFFER_MINS = 20;
 export const WALK_MINS_PER_KM = 12;
 export const MAX_RADIUS_KM = 2;
 export const EARLIEST_SHOW_MINS = 17 * 60;
+export const EARLIEST_DINNER_MINS = 18 * 60;
+export const POST_FILM_GAP_MINS = 15;
 
 export type PlanInput = {
   area: string;
@@ -94,9 +96,20 @@ export function buildCandidates(input: PlanInput): Plan[] {
         const distanceKm = haversineKm(restaurant, cinema);
         if (distanceKm > MAX_RADIUS_KM) continue;
         const walkMins = Math.max(5, Math.round(distanceKm * WALK_MINS_PER_KM));
-        const dinnerEnd = showStart - BUFFER_MINS - walkMins;
-        const dinnerStart = dinnerEnd - restaurant.mealDurationMins;
-        if (dinnerStart < 18 * 60) continue;
+
+        // Dinner first when the meal can end (with buffer) at or after 18:00 start.
+        let order: PlanOrder = "dinner-first";
+        let dinnerEnd = showStart - BUFFER_MINS - walkMins;
+        let dinnerStart = dinnerEnd - restaurant.mealDurationMins;
+        if (dinnerStart < EARLIEST_DINNER_MINS) {
+          // Flip: film first, then walk, then a 15 minute gap before dinner.
+          order = "film-first";
+          dinnerStart = showEnd + walkMins + POST_FILM_GAP_MINS;
+          dinnerEnd = dinnerStart + restaurant.mealDurationMins;
+          if (dinnerStart < EARLIEST_DINNER_MINS) continue;
+          if (dinnerEnd > input.latestEndMins) continue;
+        }
+
 
         const costDinnerPerPerson = perPersonSpend(restaurant);
         const costFilmPerPerson = cinema.avgTicketPrice;
