@@ -149,8 +149,10 @@ function Impact() {
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
           Every input below is labelled disclosed, computed from disclosed figures, or assumed. Move
-          the assumed ones and watch the case get stronger or collapse. It collapses below a 4%
-          attach rate, and again above 60% cannibalisation.
+          the assumed ones and watch the case get stronger or collapse. Dining and ticketing already
+          sit in the same app, so this adds sequencing rather than supply, which makes cannibalisation
+          the load-bearing assumption here, not the attach rate. The case collapses above 60%
+          cannibalisation, and again below a 4% attach rate.
         </p>
 
         <section className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
@@ -173,7 +175,7 @@ function Impact() {
               max={90}
               step={5}
               suffix="%"
-              note="Share of attached dinners that would have been booked anyway. Above 60% this moves bookings around rather than creating them."
+              note="The load-bearing assumption. Dining already exists on District, so some of these dinners get booked with or without a prompt. 35% is my estimate and I have no way to verify it from outside. Above 60% this moves bookings around rather than creating them and the case dies."
               onChange={setCannibalisation}
             />
             <Slider
@@ -235,10 +237,10 @@ function Impact() {
           <h2 className="text-3xl">What I cannot know from outside</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {[
+              "How many dining bookings on District already happen on the same evening as a film booking by the same user. That single query decides whether cannibalisation is 20% or 70%, and it is the difference between this being worth building and being a reshuffle.",
               "Has the user base grown, or has frequency? Current NOV implies ~6.31M monthly transactions against a last-disclosed 2M monthly transacting users at 2 each. If frequency already rose, this pushes on a door that is opening anyway.",
               "The transaction mix across movies, dining, events and sports. I assumed 60% movies; it is not disclosed, and the business is lumpy and seasonal.",
               "The take rate on dining specifically. Blended is 9.9%; dining is likely thinner than ticketing, but the split between them is not published.",
-              "How much of this demand already sits inside the food-delivery app and simply is not routed to the going-out app.",
             ].map((t) => (
               <p key={t} className="card-soft p-5 text-sm leading-relaxed text-muted-foreground">
                 {t}
