@@ -14,6 +14,8 @@ export const EARLIEST_SHOW_MINS = 17 * 60;
 export const EARLIEST_DINNER_MINS = 18 * 60;
 export const POST_FILM_GAP_MINS = 15;
 export const LATE_DINNER_MINS = 21 * 60;
+/** "Home by" means home, so every plan reserves this to actually get there. */
+export const TRAVEL_HOME_MINS = 30;
 
 export type PlanInput = {
   area: string;
@@ -42,6 +44,8 @@ export type Plan = {
   costPerPerson: number;
   costDinnerPerPerson: number;
   costFilmPerPerson: number;
+  endsAt: number;
+  homeByMins: number;
   score: number;
   breakdown: { budget: number; rating: number; travel: number };
 };
@@ -113,7 +117,8 @@ export function buildCandidates(input: PlanInput): Plan[] {
       if (showStart < EARLIEST_SHOW_MINS) continue;
       const film = filmFor(cinema, showtime);
       const showEnd = showStart + film.runtimeMins;
-      if (showEnd > input.latestEndMins) continue;
+      // dinner-first ends at the film; leave room to get home afterwards
+      if (showEnd + TRAVEL_HOME_MINS > input.latestEndMins) continue;
 
       for (const restaurant of areaRestaurants) {
         const distanceKm = haversineKm(restaurant, cinema);
@@ -131,7 +136,7 @@ export function buildCandidates(input: PlanInput): Plan[] {
           dinnerStart = showEnd + walkMins + POST_FILM_GAP_MINS;
           dinnerEnd = dinnerStart + restaurant.mealDurationMins;
           if (dinnerStart < EARLIEST_DINNER_MINS) continue;
-          if (dinnerEnd > input.latestEndMins) continue;
+          if (dinnerEnd + TRAVEL_HOME_MINS > input.latestEndMins) continue;
         }
 
         const costDinnerPerPerson = perPersonSpend(restaurant);
@@ -184,6 +189,8 @@ export function buildCandidates(input: PlanInput): Plan[] {
           costPerPerson,
           costDinnerPerPerson,
           costFilmPerPerson,
+          endsAt: order === "film-first" ? dinnerEnd : showEnd,
+          homeByMins: input.latestEndMins,
           score,
           breakdown: { budget: budgetScore, rating: ratingScore, travel: travelScore },
         });

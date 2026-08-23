@@ -23,21 +23,44 @@ export const Route = createFileRoute("/impact")({
 
 type Tag = "Disclosed" | "Computed" | "Assumed";
 
+/* Derivation chain, kept as constants so no figure on this page is a magic number. */
+const NOV_Q_CR = 3218;
+const REV_Q_CR = 318;
+const ANNUAL_NOV_CR = NOV_Q_CR * 4; // 12,872
+const AOV_ASSUMED = 1700; // last disclosed FY26, held flat
+const MONTHLY_TXNS = (ANNUAL_NOV_CR * 1e7) / AOV_ASSUMED / 12; // ≈6.31M
+
 const facts: { label: string; value: string; tag: Tag; note: string }[] = [
   {
     label: "Q1 FY27 NOV",
-    value: "₹3,218 Cr",
+    value: `₹${NOV_Q_CR.toLocaleString("en-IN")} Cr`,
     tag: "Disclosed",
     note: "+60% YoY, going-out segment",
   },
-  { label: "Q1 FY27 revenue", value: "₹318 Cr", tag: "Disclosed", note: "+54% YoY" },
+  {
+    label: "Q1 FY27 revenue",
+    value: `₹${REV_Q_CR} Cr`,
+    tag: "Disclosed",
+    note: "+54% YoY",
+  },
   { label: "Blended take rate", value: "9.9%", tag: "Computed", note: "318 ÷ 3,218" },
-  { label: "Annualised NOV", value: "≈₹12,900 Cr", tag: "Computed", note: "Q1 × 4, no seasonality" },
+  {
+    label: "Annualised NOV",
+    value: `₹${ANNUAL_NOV_CR.toLocaleString("en-IN")} Cr`,
+    tag: "Computed",
+    note: "Q1 × 4 exactly, no seasonality adjustment",
+  },
+  {
+    label: "AOV used to derive transactions",
+    value: `₹${AOV_ASSUMED.toLocaleString("en-IN")}`,
+    tag: "Assumed",
+    note: "Last disclosed FY26 figure, held flat. Not disclosed for FY27.",
+  },
   {
     label: "Monthly transactions",
-    value: "≈6.3M",
+    value: `≈${(MONTHLY_TXNS / 1e6).toFixed(2)}M`,
     tag: "Computed",
-    note: "NOV ÷ AOV ₹1,700, AOV held flat from FY26",
+    note: "₹12,872 Cr ÷ ₹1,700 ÷ 12. Rests on the assumed AOV above.",
   },
   {
     label: "Movie share of transactions",
@@ -95,10 +118,10 @@ function Slider({
 function Impact() {
   const [attachRate, setAttachRate] = useState(6);
   const [cannibalisation, setCannibalisation] = useState(35);
-  const [diningAov, setDiningAov] = useState(1400);
+  const [diningAov, setDiningAov] = useState(1900);
   const [diningTakeRate, setDiningTakeRate] = useState(6);
 
-  const monthlyTxns = 6.3e6;
+  const monthlyTxns = MONTHLY_TXNS;
   const movieTxns = monthlyTxns * 0.6;
   const attached = movieTxns * (attachRate / 100);
   const incremental = attached * (1 - cannibalisation / 100);
@@ -161,7 +184,7 @@ function Impact() {
               step={100}
               suffix=""
               prefix="₹"
-              note="Assumed. Interval's own plan set averages roughly this per head including the ticket."
+              note="Assumed. Median price-for-two across the 64 venues I collected by hand. AOV is the bill for the table, not per head, since one booking covers the party."
               onChange={setDiningAov}
             />
             <Slider
@@ -171,7 +194,7 @@ function Impact() {
               max={12}
               step={0.5}
               suffix="%"
-              note="Assumed thinner than the 9.9% blended rate, since ticketing carries the blend."
+              note="Assumed thinner than the 9.9% blend. That blend is by value, not transaction count: at 6% on dining, ticketing has to run 10.9% to 11.6% depending on dining's share of NOV, which is where convenience fees sit."
               onChange={setDiningTakeRate}
             />
           </div>
@@ -212,9 +235,9 @@ function Impact() {
           <h2 className="text-3xl">What I cannot know from outside</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {[
-              "Has the user base grown, or has frequency? Current NOV implies ~6.3M monthly transactions against a last-disclosed 2M monthly transacting users at 2 each. If frequency already rose, this pushes on a door that is opening anyway.",
+              "Has the user base grown, or has frequency? Current NOV implies ~6.31M monthly transactions against a last-disclosed 2M monthly transacting users at 2 each. If frequency already rose, this pushes on a door that is opening anyway.",
               "The transaction mix across movies, dining, events and sports. I assumed 60% movies; it is not disclosed, and the business is lumpy and seasonal.",
-              "The take rate on dining specifically. Blended is 9.9%; dining is likely thinner than ticketing.",
+              "The take rate on dining specifically. Blended is 9.9%; dining is likely thinner than ticketing, but the split between them is not published.",
               "How much of this demand already sits inside the food-delivery app and simply is not routed to the going-out app.",
             ].map((t) => (
               <p key={t} className="card-soft p-5 text-sm leading-relaxed text-muted-foreground">

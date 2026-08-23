@@ -1,5 +1,10 @@
-import { fmt, type Plan } from "@/lib/planner";
-import { filmMeta } from "@/data/films";
+import {
+  fmt,
+  BUFFER_MINS,
+  POST_FILM_GAP_MINS,
+  TRAVEL_HOME_MINS,
+  type Plan,
+} from "@/lib/planner";
 
 function Segment({
   label,
@@ -36,7 +41,6 @@ function Segment({
   );
 }
 
-/** One labelled block in the detail row. min-w-0 is what stops cells colliding. */
 function Fact({
   label,
   value,
@@ -70,8 +74,9 @@ export function PlanCard({
 }) {
   const filmFirst = plan.order === "film-first";
   const start = filmFirst ? plan.showStart : plan.dinnerStart;
-  const end = filmFirst ? plan.dinnerEnd : plan.showEnd;
+  const end = plan.endsAt;
   const total = end - start;
+  const homeBy = end + TRAVEL_HOME_MINS;
   const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
   const dinnerSegment = (
@@ -96,20 +101,22 @@ export function PlanCard({
       flex={Math.max(30, plan.walkMins * 1.6)}
     />
   );
+  // No film title. My dataset has showtimes per cinema, not per film, so naming
+  // a film here would be inventing the one fact the product is supposed to pair on.
   const filmSegment = (
     <Segment
       key="film"
       tone="film"
       label="Film"
       time={`${fmt(plan.showStart)}–${fmt(plan.showEnd)}`}
-      detail={plan.film.title}
+      detail={`${fmt(plan.showStart)} show`}
       minWidth="9.5rem"
       flex={plan.film.runtimeMins}
     />
   );
 
   return (
-    <article className="card-soft col-span-full mx-auto flex w-full max-w-4xl flex-col gap-5 p-6 sm:p-7">
+    <article className="card-soft flex w-full flex-col gap-5 p-6 sm:p-7">
       {/* --- header --- */}
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
         <div className="min-w-0 flex-1">
@@ -134,15 +141,23 @@ export function PlanCard({
       </div>
 
       {/* --- the timeline strip --- */}
-      <div className="flex items-start gap-1.5">
-        {filmFirst
-          ? [filmSegment, walkSegment, dinnerSegment]
-          : [dinnerSegment, walkSegment, filmSegment]}
+      <div>
+        <div className="flex items-start gap-1.5">
+          {filmFirst
+            ? [filmSegment, walkSegment, dinnerSegment]
+            : [dinnerSegment, walkSegment, filmSegment]}
+        </div>
+        {/* every gap in the plan, stated */}
+        <p className="mt-3 text-xs leading-snug text-muted-foreground">
+          {filmFirst
+            ? `Walk, then ${POST_FILM_GAP_MINS} min to get seated after the film.`
+            : `Walk, then ${BUFFER_MINS} min spare before the film starts.`}{" "}
+          Plus {TRAVEL_HOME_MINS} min to travel home, reserved inside your “home by” time.
+        </p>
       </div>
 
       {/* --- details --- */}
       <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-border pt-4 text-sm sm:grid-cols-4">
-        <Fact label="Film" value={plan.film.title} sub={filmMeta(plan.film)} />
         <Fact
           label="Cinema"
           value={plan.cinema.name.split(",")[0]}
@@ -164,15 +179,24 @@ export function PlanCard({
           value={`${Math.floor(total / 60)}h ${total % 60}m`}
           sub={`${fmt(start)} – ${fmt(end)}`}
         />
+        <Fact
+          label="Home by"
+          value={fmt(homeBy)}
+          sub={`Finishes ${fmt(end)}, plus ${TRAVEL_HOME_MINS} min travel`}
+        />
       </dl>
 
-      {/* --- honesty row --- */}
+      {/* --- what is and isn't verified --- */}
       <div className="flex flex-wrap gap-1.5">
         <span className="pill border border-border">
-          {plan.restaurant.takesReservations ? "Takes reservations" : "Walk-in only"}
+          {plan.restaurant.takesReservations
+            ? "Reservations: yes, per Zomato"
+            : "Reservations: walk-in only"}
         </span>
-        <span className="pill border border-border">Bookability unverified</span>
-        <span className="pill border border-border">Film title illustrative</span>
+        <span className="pill border border-border">
+          Booking through District: not checked
+        </span>
+        <span className="pill border border-border">Showtime real, film not named</span>
       </div>
     </article>
   );
