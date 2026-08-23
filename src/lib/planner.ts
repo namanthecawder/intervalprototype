@@ -26,6 +26,8 @@ export type Plan = {
   distanceKm: number;
   costTotal: number;
   costPerPerson: number;
+  costDinnerPerPerson: number;
+  costFilmPerPerson: number;
   score: number;
   breakdown: { budget: number; rating: number; travel: number };
 };
@@ -91,17 +93,18 @@ export function buildCandidates(input: PlanInput): Plan[] {
         const walkMins = Math.max(5, Math.round(distanceKm * WALK_MINS_PER_KM));
         const dinnerEnd = showStart - BUFFER_MINS - walkMins;
         const dinnerStart = dinnerEnd - restaurant.mealDurationMins;
-        if (dinnerStart < 17 * 60 - 60) continue;
+        if (dinnerStart < 18 * 60) continue;
 
-        const spend = perPersonSpend(restaurant) + cinema.avgTicketPrice;
-        const costPerPerson = spend;
-        const costTotal = spend * input.partySize;
+        const costDinnerPerPerson = perPersonSpend(restaurant);
+        const costFilmPerPerson = cinema.avgTicketPrice;
+        const costPerPerson = costDinnerPerPerson + costFilmPerPerson;
+        const costTotal = costPerPerson * input.partySize;
 
         const budgetScore = Math.max(
           0,
-          1 - Math.abs(costPerPerson - input.budgetPerPerson) / input.budgetPerPerson,
+          1 - Math.abs(costDinnerPerPerson - input.budgetPerPerson) / input.budgetPerPerson,
         );
-        if (costPerPerson > input.budgetPerPerson * 1.25) continue;
+        if (costDinnerPerPerson > input.budgetPerPerson * 1.25) continue;
         const ratingScore = restaurant.rating ? (restaurant.rating - 2.5) / 2.5 : 0.4;
         const travelScore = 1 - Math.min(1, distanceKm / MAX_RADIUS_KM);
 
@@ -120,6 +123,8 @@ export function buildCandidates(input: PlanInput): Plan[] {
           distanceKm,
           costTotal,
           costPerPerson,
+          costDinnerPerPerson,
+          costFilmPerPerson,
           score,
           breakdown: { budget: budgetScore, rating: ratingScore, travel: travelScore },
         });

@@ -60,7 +60,7 @@ function PlanPage() {
               </Choice>
             ))}
           </Control>
-          <Control label="Budget per person">
+          <Control label="Food budget per person">
             {BUDGETS.map((b) => (
               <Choice key={b} active={b === budgetPerPerson} onClick={() => setBudget(b)}>
                 ₹{b.toLocaleString("en-IN")}

@@ -52,7 +52,9 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
             {plan.restaurant.mealDurationMins} min meal
           </p>
         </div>
-        <span className="pill-active shrink-0">₹{plan.costTotal.toLocaleString("en-IN")}</span>
+        <span className="pill-active shrink-0">
+          ₹{plan.costPerPerson.toLocaleString("en-IN")} per person
+        </span>
       </div>
 
       {/* The timeline strip: the most distinctive element on the page. */}
@@ -96,7 +98,9 @@ export function PlanCard({ plan, rank, partySize }: { plan: Plan; rank: number; 
         </div>
         <div>
           <dt className="text-xs text-muted-foreground">Per person</dt>
-          <dd className="font-semibold">₹{plan.costPerPerson.toLocaleString("en-IN")}</dd>
+          <dd className="font-semibold">
+            Dinner ₹{plan.costDinnerPerPerson.toLocaleString("en-IN")} + Film ₹{plan.costFilmPerPerson.toLocaleString("en-IN")} = ₹{plan.costPerPerson.toLocaleString("en-IN")}
+          </dd>
           <dd className="text-xs text-muted-foreground">party of {partySize}</dd>
         </div>
         <div>
