@@ -14,6 +14,11 @@ export function SiteFooter() {
           inventory and no accounts. Financial figures cited on the Impact page come from public
           filings and are modelled, not disclosed.
         </p>
+        <p className="max-w-3xl leading-relaxed">
+          Film titles are illustrative. My dataset contains cinema showtimes only, not per-film
+          schedules — collecting those was out of scope. Restaurant and cinema data is real and
+          hand-collected.
+        </p>
       </div>
     </footer>
   );
