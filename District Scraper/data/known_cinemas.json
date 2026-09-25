@@ -1,0 +1,107 @@
+[
+ {
+  "name": "Pepsi PVR Ambience, Ambience Mall, Gurugram",
+  "lat": 28.50562,
+  "lng": 77.09647,
+  "area": "Gurgaon",
+  "avgTicketPrice": 600
+ },
+ {
+  "name": "HDFC Millennia PVR MGF, Gurugram",
+  "lat": 28.48112,
+  "lng": 77.08018,
+  "area": "Gurgaon",
+  "avgTicketPrice": 450
+ },
+ {
+  "name": "PVR City Centre, DLF City Centre Mall, Gurugram",
+  "lat": 28.4789897,
+  "lng": 77.0801106,
+  "area": "Gurgaon",
+  "avgTicketPrice": 375
+ },
+ {
+  "name": "INOX Gurugram Ardee Mall, Ardee City, Gurugram",
+  "lat": 28.4451,
+  "lng": 77.0808,
+  "area": "Gurgaon",
+  "avgTicketPrice": 850
+ },
+ {
+  "name": "Cinepolis Airia Mall, Sohna Road, Gurugram",
+  "lat": 28.38331,
+  "lng": 77.0523,
+  "area": "Gurgaon",
+  "avgTicketPrice": 475
+ },
+ {
+  "name": "PVR Superplex Logix, Sector 32, Noida",
+  "lat": 28.5741241,
+  "lng": 77.3538227,
+  "area": "Noida",
+  "avgTicketPrice": 700
+ },
+ {
+  "name": "PVR Superplex Mall of India, Sector 18, Noida",
+  "lat": 28.56714,
+  "lng": 77.32062,
+  "area": "Noida",
+  "avgTicketPrice": 600
+ },
+ {
+  "name": "PVR Directors Cut, DLF Mall of India, Noida",
+  "lat": 28.56714,
+  "lng": 77.32062,
+  "area": "Noida",
+  "avgTicketPrice": 1500
+ },
+ {
+  "name": "Cinepolis Modi Mall, Sector 25A, Noida",
+  "lat": 28.58332,
+  "lng": 77.33347,
+  "area": "Noida",
+  "avgTicketPrice": 425
+ },
+ {
+  "name": "Wave Cinemas, Noida",
+  "lat": 28.56789,
+  "lng": 77.32288,
+  "area": "Noida",
+  "avgTicketPrice": 350
+ },
+ {
+  "name": "PVR Select City Walk, Saket, New Delhi",
+  "lat": 28.52809,
+  "lng": 77.21958,
+  "area": "South Delhi",
+  "avgTicketPrice": 750
+ },
+ {
+  "name": "Cinepolis DLF Avenue, Saket, New Delhi",
+  "lat": 28.5281,
+  "lng": 77.21566,
+  "area": "South Delhi",
+  "avgTicketPrice": 450
+ },
+ {
+  "name": "PVR Anupam Saket, New Delhi",
+  "lat": 28.52371,
+  "lng": 77.20706,
+  "area": "South Delhi",
+  "avgTicketPrice": 350
+ },
+ {
+  "name": "PVR IMAX with Laser - Priya, Vasant Vihar, New Delhi",
+  "lat": 28.55738,
+  "lng": 77.16451,
+  "area": "South Delhi",
+  "avgTicketPrice": 950
+ },
+ {
+  "name": "INOX Insignia at Epicuria, Nehru Place, New Delhi",
+  "lat": 28.55135,
+  "lng": 77.25141,
+  "area": "South Delhi",
+  "avgTicketPrice": 900
+ }
+]

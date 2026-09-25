@@ -19,10 +19,9 @@
  */
 
 @theme inline {
-  --font-sans:
-    "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display:
-    "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -34,6 +33,13 @@
   --color-lavender-deep: var(--lavender-deep);
   --color-amber-accent: var(--amber-accent);
   --color-amber-accent-foreground: var(--amber-accent-foreground);
+  --color-night: var(--night);
+  --color-night-soft: var(--night-soft);
+  --color-night-foreground: var(--night-foreground);
+  --color-dinner: var(--dinner);
+  --color-film: var(--film);
+  --color-walk: var(--walk);
+  --color-surface: var(--surface);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -71,36 +77,43 @@
 }
 
 :root {
-  --radius: 1rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.215 0.008 285);
+  --radius: 0.875rem;
+  --background: oklch(0.985 0.003 90);
+  --surface: oklch(0.962 0.004 90);
+  --foreground: oklch(0.19 0.005 285);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.215 0.008 285);
+  --card-foreground: oklch(0.19 0.005 285);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.215 0.008 285);
-  --primary: oklch(0.42 0.16 279);
-  --primary-foreground: oklch(0.99 0.004 285);
-  --secondary: oklch(0.955 0.018 293);
-  --secondary-foreground: oklch(0.33 0.09 280);
-  --muted: oklch(0.972 0.006 285);
-  --muted-foreground: oklch(0.55 0.015 285);
-  --accent: oklch(0.955 0.018 293);
-  --accent-foreground: oklch(0.33 0.09 280);
+  --popover-foreground: oklch(0.19 0.005 285);
+  --primary: oklch(0.19 0.005 285);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.962 0.004 90);
+  --secondary-foreground: oklch(0.19 0.005 285);
+  --muted: oklch(0.962 0.004 90);
+  --muted-foreground: oklch(0.52 0.008 285);
+  --accent: oklch(0.962 0.004 90);
+  --accent-foreground: oklch(0.19 0.005 285);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.215 0.008 285 / 8%);
-  --input: oklch(0.215 0.008 285 / 12%);
-  --ring: oklch(0.42 0.16 279 / 40%);
+  --border: oklch(0.19 0.005 285 / 9%);
+  --input: oklch(0.19 0.005 285 / 14%);
+  --ring: oklch(0.19 0.005 285 / 35%);
+  /* meaning colours: used only for dinner / film */
+  --dinner: oklch(0.72 0.15 58);
+  --film: oklch(0.45 0.19 277);
+  --walk: oklch(0.86 0.01 285);
+  --night: oklch(0.19 0.005 285);
+  --night-soft: oklch(0.27 0.01 285);
+  --night-foreground: oklch(0.97 0.003 90);
   --lavender: oklch(0.955 0.018 293);
   --lavender-deep: oklch(0.9 0.038 293);
-  --amber-accent: oklch(0.72 0.155 65);
-  --amber-accent-foreground: oklch(0.28 0.06 60);
-  --chart-1: oklch(0.42 0.16 279);
-  --chart-2: oklch(0.72 0.155 65);
+  --amber-accent: oklch(0.72 0.15 58);
+  --amber-accent-foreground: oklch(0.42 0.1 55);
+  --chart-1: oklch(0.45 0.19 277);
+  --chart-2: oklch(0.72 0.15 58);
   --chart-3: oklch(0.6 0.09 280);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-
   --sidebar: oklch(0.984 0.003 247.858);
   --sidebar-foreground: oklch(0.129 0.042 264.695);
   --sidebar-primary: oklch(0.208 0.042 265.755);
@@ -162,27 +175,45 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.025em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
 }
 
-/* Pale lavender wash fading to white toward the page body. */
 @utility page-wash {
-  background:
-    linear-gradient(
-      180deg,
-      var(--lavender) 0%,
-      color-mix(in oklab, var(--lavender) 45%, white) 22%,
-      white 46%
-    );
+  background: var(--color-background);
+}
+
+@utility night-band {
+  background: var(--night);
+  color: var(--night-foreground);
 }
 
 @utility card-soft {
   background: var(--color-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  box-shadow: 0 1px 2px oklch(0.215 0.008 285 / 4%), 0 12px 28px -18px oklch(0.215 0.008 285 / 18%);
+  border-radius: calc(var(--radius) + 2px);
+}
+
+@utility eyebrow {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-muted-foreground);
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+@utility fade-right {
+  mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
 }
 
 @utility pill {
@@ -218,3 +249,57 @@
   }
 }
 
+
+@layer base {
+  h1 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@utility rise-in {
+  animation: rise-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise-in { animation: none; }
+}
+
+/* ---- map markers (Leaflet divIcons) ---- */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+}
+.pin {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px oklch(0.19 0.005 285 / 25%);
+  color: #fff;
+}
+.pin svg { width: 14px; height: 14px; }
+.pin-dinner { background: var(--dinner); }
+.pin-film { background: var(--film); }
+.pin-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: oklch(0.19 0.005 285 / 30%);
+  border: 1.5px solid #fff;
+}
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  background: oklch(1 0 0 / 70%) !important;
+}

@@ -1,7 +1,17 @@
 // Hand-collected venue data. Public sources, verified 2026-08-22.
+// Live cinemas from the District scraper API use the same shape plus `sessions`.
+import type { Film } from "./films";
+
+/** One real screening: a specific film at a specific time. */
+export type Session = { time: string; film: Film; format?: string };
+
 export type Cinema = {
   name: string; brand: string; locality: string; area: string;
   lat: number; lng: number; showtimes: string[]; avgTicketPrice: number;
+  /** Per-film showtimes. Present for live data; the hand-collected set has times only. */
+  sessions?: Session[];
+  source?: "live" | "sample";
+  url?: string;
 };
 
 export type Occasion = "date" | "friends" | "family" | "quick";
@@ -12,6 +22,10 @@ export type Restaurant = {
   takesReservations: boolean; mealDurationMins: number;
   venueType: string; occasionFit: Occasion[];
   vegFriendly: string; districtBooking: string; sourceUrl: string; checkedOn: string;
+  /** "live" = found near a cinema by the maps scraper; absent = hand-collected. */
+  source?: "live";
+  priceEstimated?: boolean;
+  mapsUrl?: string;
 };
 
 export const AREAS = ["Gurgaon", "Noida", "South Delhi"] as const;
