@@ -26,7 +26,12 @@ This is what that connection looks like when you build it instead of describing 
 
 ## The dataset
 
-Everything here runs on data I collected by hand. There is no API and no scraping.
+Pick an area, a day and (optionally) a film. A small API (`district-scraper/`)
+pulls that day's per-film showtimes from District's public listings, finds
+restaurants within walking distance of each cinema (OpenStreetMap, or Google
+Places with a key), and merges them with 64 hand-collected restaurants. The
+planner then sequences dinner, walk and film. If the API is down, the app falls
+back to the hand-collected set below.
 
 | | Count | Fields |
 |---|---|---|
@@ -47,10 +52,38 @@ python3 merge_and_check.py
 ```
 
 **Known limits, stated up front:**
-- Showtimes are aggregated across all screens and films at each multiplex, not per-film.
+- The hand-collected fallback showtimes are aggregated per multiplex, not per film.
+  Live data from the scraper is per film, with format (IMAX, GOLD…) and runtime.
 - `meal_duration_mins` is collected for 24 restaurants and rule-derived for 40.
   The `meal_duration_source` column marks which is which.
 - Ratings come from Zomato and are compressed by that platform's own distribution.
+
+## Running it locally
+
+Two processes: the scraper API and the web app.
+
+```bash
+# 1. Scraper API (Python 3.10+)
+cd district-scraper
+pip install -r requirements.txt
+uvicorn app.main:app --port 8000
+
+# 2. Web app (in another terminal, from the repo root)
+cp .env.example .env          # points the app at http://localhost:8000
+bun install                   # or: npm install
+bun run dev                   # or: npm run dev
+```
+
+Optional: set `GOOGLE_MAPS_API_KEY` before starting the API to get ratings and
+prices for restaurants it discovers (OpenStreetMap is used otherwise).
+
+The first load for an area takes 20–40 s while the API scans that city's cinemas
+(one request per cinema, rate-limited). After that, pages are cached for 10 minutes
+and cinema coordinates are saved to `district-scraper/app/data/cinema_coords.json`.
+The status line under the controls shows whether plans use live or saved data.
+
+To deploy, host the API anywhere that runs Python (Render, Railway, Fly.io) and set
+`VITE_DISTRICT_API_URL` to its URL in your web host's environment variables.
 
 ## How the algorithm works
 
@@ -119,7 +152,9 @@ reading.
 │   ├── cinemas.csv
 │   ├── restaurants_merged.csv
 │   └── impact_model_v2.csv
+├── district-scraper/        # FastAPI service: live cinemas + showtimes near restaurants
 ├── merge_and_check.py      # dataset validation + distance computation
 ├── PRD_Interval.md         # one-page product spec
 └── src/                    # the app
+    └── lib/districtApi.ts  # client for the scraper API
 ```

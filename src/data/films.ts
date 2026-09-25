@@ -4,6 +4,9 @@ export type Film = {
   certificate: string;
   languages: string[];
   runtimeMins: number;
+  /** True when District gave no runtime and a default was used. */
+  runtimeEstimated?: boolean;
+  url?: string;
 };
 
 export const films: Film[] = [

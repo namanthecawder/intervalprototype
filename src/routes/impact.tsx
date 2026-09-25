@@ -95,7 +95,7 @@ function Slider({
     <div>
       <div className="flex items-baseline justify-between gap-3">
         <p className="text-sm font-semibold">{label}</p>
-        <span className="pill-active">
+        <span className="rounded-lg bg-surface px-2.5 py-1 text-sm font-bold tabular-nums">
           {prefix}
           {value.toLocaleString("en-IN")}
           {suffix}
@@ -108,7 +108,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-lavender-deep accent-primary"
+        className="mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-foreground/10 accent-foreground"
       />
       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{note}</p>
     </div>
@@ -142,9 +142,9 @@ function Impact() {
 
   return (
     <div className="page-wash">
-      <div className="mx-auto max-w-6xl px-5 pb-16 pt-14">
-        <p className="pill-active">The model</p>
-        <h1 className="mt-5 max-w-3xl text-4xl leading-[1.1] sm:text-5xl">
+      <div className="mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 sm:pt-20">
+        <p className="eyebrow">The model</p>
+        <h1 className="mt-4 max-w-3xl text-4xl leading-[1.05] sm:text-5xl">
           A sensitivity model, not a forecast.
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -156,7 +156,7 @@ function Impact() {
         </p>
 
         <section className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-          <div className="card-soft space-y-7 p-6">
+          <div className="card-soft space-y-8 p-6 sm:p-8">
             <h2 className="text-2xl">Dials</h2>
             <Slider
               label="Attach rate"
@@ -201,17 +201,22 @@ function Impact() {
             />
           </div>
 
-          <div className="space-y-6">
-            <div className="card-soft grid grid-cols-2 gap-5 p-6">
-              {outputs.map((o) => (
-                <div key={o.label}>
-                  <p className="text-2xl font-extrabold tracking-tight">{o.value}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{o.label}</p>
-                </div>
-              ))}
+          <div className="space-y-6 lg:sticky lg:top-20 lg:self-start">
+            <div className="night-band overflow-hidden rounded-[calc(var(--radius)+4px)] p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-dinner">
+                What those dials produce
+              </p>
+              <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-6">
+                {outputs.map((o) => (
+                  <div key={o.label}>
+                    <p className="text-3xl font-semibold tracking-tight tabular-nums">{o.value}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-night-foreground/65">{o.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="card-soft p-6">
+            <div className="card-soft p-6 sm:p-8">
               <h2 className="text-2xl">Inputs</h2>
               <ul className="mt-5 space-y-4">
                 {facts.map((f) => (
@@ -221,10 +226,18 @@ function Impact() {
                       <p className="text-xs text-muted-foreground">{f.note}</p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-sm font-bold">{f.value}</p>
-                      <p className="text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+                      <p className="text-sm font-bold tabular-nums">{f.value}</p>
+                      <span
+                        className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[0.62rem] font-bold uppercase tracking-[0.08em] ${
+                          f.tag === "Disclosed"
+                            ? "bg-emerald-500/12 text-emerald-700"
+                            : f.tag === "Computed"
+                              ? "bg-film/10 text-film"
+                              : "bg-dinner/15 text-amber-accent-foreground"
+                        }`}
+                      >
                         {f.tag}
-                      </p>
+                      </span>
                     </div>
                   </li>
                 ))}
@@ -234,23 +247,29 @@ function Impact() {
         </section>
 
         <section className="mt-14">
-          <h2 className="text-3xl">What I cannot know from outside</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <h2 className="text-2xl sm:text-3xl">What I cannot know from outside</h2>
+          <ol className="mt-6 grid gap-x-10 gap-y-6 md:grid-cols-2">
             {[
               "How many dining bookings on District already happen on the same evening as a film booking by the same user. That single query decides whether cannibalisation is 20% or 70%, and it is the difference between this being worth building and being a reshuffle.",
               "Has the user base grown, or has frequency? Current NOV implies ~6.31M monthly transactions against a last-disclosed 2M monthly transacting users at 2 each. If frequency already rose, this pushes on a door that is opening anyway.",
               "The transaction mix across movies, dining, events and sports. I assumed 60% movies; it is not disclosed, and the business is lumpy and seasonal.",
               "The take rate on dining specifically. Blended is 9.9%; dining is likely thinner than ticketing, but the split between them is not published.",
-            ].map((t) => (
-              <p key={t} className="card-soft p-5 text-sm leading-relaxed text-muted-foreground">
-                {t}
-              </p>
+            ].map((t, i) => (
+              <li key={t} className="flex gap-4 text-sm leading-relaxed text-muted-foreground">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface text-xs font-bold text-foreground">
+                  {i + 1}
+                </span>
+                <span>{t}</span>
+              </li>
             ))}
+          </ol>
+          <div className="mt-12 rounded-2xl border border-film/15 bg-film/5 p-6 sm:p-8">
+            <p className="eyebrow">North star</p>
+            <p className="mt-2 max-w-3xl text-lg font-semibold leading-snug">
+              Going-out occasions per active user per month — not GMV, which rewards selling one
+              expensive ticket rather than fixing frequency.
+            </p>
           </div>
-          <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            North star for the feature is going-out occasions per active user per month — not GMV,
-            which rewards selling one expensive ticket rather than fixing frequency.
-          </p>
         </section>
       </div>
     </div>

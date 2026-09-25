@@ -4,6 +4,7 @@ import {
   type Cinema,
   type Restaurant,
   type Occasion,
+  type Session,
 } from "@/data/venues";
 import { films, type Film } from "@/data/films";
 
@@ -24,6 +25,10 @@ export type PlanInput = {
   latestEndMins: number;
   /** Optional so existing callers keep compiling; defaults to "date". */
   occasion?: Occasion;
+  /** Only plan around this film (title). Null/undefined = any film. */
+  film?: string | null;
+  /** Nothing in the plan may start before this (e.g. "now + 20 min" when planning for today). */
+  notBeforeMins?: number;
 };
 
 export type PlanOrder = "dinner-first" | "film-first";
@@ -34,6 +39,10 @@ export type Plan = {
   restaurant: Restaurant;
   cinema: Cinema;
   film: Film;
+  /** Screen format from District (IMAX, GOLD, 4DX...) when known. */
+  format?: string;
+  /** True when the film is a real listing for this showtime, not an illustrative pick. */
+  filmIsReal: boolean;
   dinnerStart: number;
   dinnerEnd: number;
   walkMins: number;
@@ -87,6 +96,12 @@ function filmFor(cinema: Cinema, showtime: string): Film {
   return films[hash(cinema.name + showtime) % films.length]!;
 }
 
+/** Real per-film sessions when we have them, otherwise showtimes with an illustrative film. */
+function slotsFor(cinema: Cinema): (Session & { real: boolean })[] {
+  if (cinema.sessions?.length) return cinema.sessions.map((s) => ({ ...s, real: true }));
+  return cinema.showtimes.map((time) => ({ time, film: filmFor(cinema, time), real: false }));
+}
+
 /** Per-person dinner spend estimate from the restaurant's price-for-two. */
 function perPersonSpend(r: Restaurant): number {
   return Math.round(r.priceForTwo / 2);
@@ -98,24 +113,33 @@ function perPersonSpend(r: Restaurant): number {
  */
 function fitsOccasion(r: Restaurant, occasion: Occasion): boolean {
   if (!r.occasionFit.includes(occasion)) return false;
-  if (occasion === "date" && !r.takesReservations) return false;
+  // Reservations are only known for hand-collected venues.
+  if (occasion === "date" && !r.takesReservations && r.source !== "live") return false;
   if (occasion === "family" && r.venueType === "bar") return false;
   return true;
 }
 
-export function buildCandidates(input: PlanInput): Plan[] {
+export function buildCandidates(
+  input: PlanInput,
+  cinemaList: Cinema[] = cinemas,
+  restaurantList: Restaurant[] = restaurants,
+): Plan[] {
   const occasion: Occasion = input.occasion ?? "date";
-  const areaCinemas = cinemas.filter((c) => c.area === input.area);
-  const areaRestaurants = restaurants.filter(
+  const notBefore = input.notBeforeMins ?? 0;
+  const filmKey = input.film ? input.film.toLowerCase() : null;
+  const areaCinemas = cinemaList.filter((c) => c.area === input.area);
+  const areaRestaurants = restaurantList.filter(
     (r) => r.area === input.area && fitsOccasion(r, occasion),
   );
   const out: Plan[] = [];
 
   for (const cinema of areaCinemas) {
-    for (const showtime of cinema.showtimes) {
+    for (const slot of slotsFor(cinema)) {
+      const showtime = slot.time;
       const showStart = toMins(showtime);
-      if (showStart < EARLIEST_SHOW_MINS) continue;
-      const film = filmFor(cinema, showtime);
+      if (showStart < EARLIEST_SHOW_MINS || showStart < notBefore) continue;
+      const film = slot.film;
+      if (filmKey && film.title.toLowerCase() !== filmKey) continue;
       const showEnd = showStart + film.runtimeMins;
       // dinner-first ends at the film; leave room to get home afterwards
       if (showEnd + TRAVEL_HOME_MINS > input.latestEndMins) continue;
@@ -138,6 +162,8 @@ export function buildCandidates(input: PlanInput): Plan[] {
           if (dinnerStart < EARLIEST_DINNER_MINS) continue;
           if (dinnerEnd + TRAVEL_HOME_MINS > input.latestEndMins) continue;
         }
+
+        if (dinnerStart < notBefore) continue;
 
         const costDinnerPerPerson = perPersonSpend(restaurant);
         const costFilmPerPerson = cinema.avgTicketPrice;
@@ -174,11 +200,13 @@ export function buildCandidates(input: PlanInput): Plan[] {
         if (dinnerStart > LATE_DINNER_MINS) score -= 0.15;
 
         out.push({
-          id: `${cinema.name}|${showtime}|${restaurant.name}`,
+          id: `${cinema.name}|${showtime}|${film.title}|${restaurant.name}`,
           order,
           restaurant,
           cinema,
           film,
+          ...(slot.format ? { format: slot.format } : {}),
+          filmIsReal: slot.real,
           dinnerStart,
           dinnerEnd,
           walkMins,
@@ -201,8 +229,12 @@ export function buildCandidates(input: PlanInput): Plan[] {
 }
 
 /** Top three with forced variety: unique restaurants, max two per cinema, cuisine spread. */
-export function rankPlans(input: PlanInput): Plan[] {
-  const candidates = buildCandidates(input);
+export function rankPlans(
+  input: PlanInput,
+  cinemaList?: Cinema[],
+  restaurantList?: Restaurant[],
+): Plan[] {
+  const candidates = buildCandidates(input, cinemaList, restaurantList);
   const chosen: Plan[] = [];
   const usedRestaurants = new Set<string>();
   const cinemaCount = new Map<string, number>();
